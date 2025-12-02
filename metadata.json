@@ -1,0 +1,7 @@
+{
+  "name": "Copy of TTH - Tale Bot",
+  "description": "Asistentul de joacă și învățare Tales & Tech pentru copii. Interacțiune vocală și jocuri educative.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
