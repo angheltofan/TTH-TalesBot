@@ -31,14 +31,19 @@ export function decode(base64: string): Uint8Array {
 
 /**
  * Decodes base64 encoded audio string to string.
+ * Optimized to avoid high CPU usage with large buffers.
  */
 function base64Encode(bytes: Uint8Array): string {
-  let binary = '';
-  const len = bytes.byteLength;
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
+  const CHUNK_SIZE = 0x8000; // 32k chunks to avoid stack overflow in apply
+  const length = bytes.length;
+  let result = '';
+  
+  for (let i = 0; i < length; i += CHUNK_SIZE) {
+    const chunk = bytes.subarray(i, Math.min(i + CHUNK_SIZE, length));
+    // Using apply is significantly faster than string concatenation in a loop
+    result += String.fromCharCode.apply(null, chunk as unknown as number[]);
   }
-  return btoa(binary);
+  return btoa(result);
 }
 
 /**

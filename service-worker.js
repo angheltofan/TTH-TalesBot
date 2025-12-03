@@ -12,7 +12,7 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
-});
+}); 
 
 self.addEventListener('fetch', event => {
   event.respondWith(
