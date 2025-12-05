@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GameMode } from './types';
 import { useGeminiLive } from './hooks/useGeminiLive';
 import { useGameConfig } from './hooks/useGameConfig';
+import { fetchApiKeyFromSheet } from './sheet-utils';
 
 import RobotAvatar from './components/RobotAvatar';
 import ControlPanel from './components/ControlPanel';
@@ -9,6 +10,26 @@ import ControlPanel from './components/ControlPanel';
 export default function App() {
   // State for current selection
   const [currentMode, setCurrentMode] = useState<GameMode>(GameMode.MAGIC_JIN);
+  
+  // State for API Key (loads from Sheet or falls back to Env)
+  const [dynamicApiKey, setDynamicApiKey] = useState<string | undefined>(process.env.API_KEY);
+  const [isKeyLoading, setIsKeyLoading] = useState(true);
+
+  // Load API Key on Mount
+  useEffect(() => {
+    let mounted = true;
+    const loadKey = async () => {
+      const sheetKey = await fetchApiKeyFromSheet();
+      if (mounted) {
+        if (sheetKey) {
+          setDynamicApiKey(sheetKey);
+        }
+        setIsKeyLoading(false);
+      }
+    };
+    loadKey();
+    return () => { mounted = false; };
+  }, []);
 
   // Custom Hooks
   const { gameModes, arePromptsLoading } = useGameConfig();
@@ -19,7 +40,7 @@ export default function App() {
     error, 
     startSession, 
     stopSession 
-  } = useGeminiLive(process.env.API_KEY);
+  } = useGeminiLive(dynamicApiKey);
 
   // Handlers
   const handleToggleSession = () => {
@@ -39,6 +60,8 @@ export default function App() {
     setCurrentMode(newMode);
   };
 
+  const isLoading = arePromptsLoading || isKeyLoading;
+
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-[#00AEEF] text-white font-['Nunito'] select-none">
       
@@ -51,7 +74,7 @@ export default function App() {
         <RobotAvatar 
           isConnected={isConnected}
           audioVolume={audioVolume}
-          arePromptsLoading={arePromptsLoading}
+          arePromptsLoading={isLoading}
           error={error}
         />
 
@@ -59,7 +82,7 @@ export default function App() {
         <ControlPanel 
           isConnected={isConnected}
           isConnecting={isConnecting}
-          arePromptsLoading={arePromptsLoading}
+          arePromptsLoading={isLoading}
           currentMode={currentMode}
           gameModes={gameModes}
           onToggleSession={handleToggleSession}
