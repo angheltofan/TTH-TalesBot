@@ -1,20 +1,28 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# TTH - Tale Bot (Tales & Tech Helper)
 
-# Run and deploy your AI Studio app
+**TTH (Tale Bot)** este o aplicație web progresivă (PWA) construită cu **React** și **Vite**, care utilizează **Google Gemini Live API** pentru a oferi o interacțiune vocală naturală, în timp real, cu copiii. Robotul poate juca diverse jocuri educative, spune povești și testa cunoștințele generale, totul într-un mediu controlat și prietenos.
 
-This contains everything you need to run your app locally.
+## ✨ Funcționalități Principale
 
-View your app in AI Studio: https://ai.studio/apps/drive/1w1O-rxo-fwbFjgpnhKILlzv36fTpbfST
+*   **🗣️ Interacțiune Vocală în Timp Real:** Folosește noua capabilitate Gemini Live (WebSocket) pentru latență minimă și conversații fluide.
+*   **🎮 Moduri de Joc Multiple:**
+    *   **Magic Jinn:** Robotul ghicește animalul la care se gândește copilul.
+    *   **Cultură Generală:** Întrebări trivia adaptate vârstei.
+    *   **Logică și Matematică:** Exerciții de "gimnastică a minții".
+    *   **Creator de Povești:** Crearea unei povești colaborative, frază cu frază.
+*   **📱 Suport PWA:** Poate fi instalată ca aplicație nativă pe telefoane și tablete (iOS/Android).
+*   **⚙️ Configurare Dinamică:** Prompt-urile și personalitatea robotului sunt încărcate din Google Sheets, permițând actualizarea conținutului fără redeploy.
+*   **🎨 Interfață Vizuală:** Avatar animat, vizualizator audio reactiv și design adaptat pentru copii.
 
-## Run Locally
+## 🛠️ Tehnologii Utilizate
 
-**Prerequisites:**  Node.js
+*   **Frontend:** React 18 (TypeScript), Tailwind CSS
+*   **Build Tool:** Vite
+*   **AI:** `@google/genai` (Gemini Multimodal Live API)
+*   **Audio:** Web Audio API (procesare PCM 16kHz/24kHz)
+*   **Icons:** Lucide React, React Icons
 
+Aplicația folosește API-ul Gemini Live care este în stadiu *preview*. Ocazional pot apărea întreruperi sau limitări de cotă (Rate Limits) în funcție de cheia API utilizată.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+Dezvoltat cu ❤️ pentru Tales & Tech.
