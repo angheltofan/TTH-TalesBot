@@ -29,6 +29,7 @@ export function useGeminiLive(apiKey: string | undefined) {
   useEffect(() => {
     if (apiKey) {
       aiRef.current = new GoogleGenAI({ apiKey });
+      setError(null);
     } else {
       setError("API Key missing");
     }
